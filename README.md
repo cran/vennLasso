@@ -1,18 +1,25 @@
 
 
 
+[![version](http://www.r-pkg.org/badges/version/vennLasso)](https://cran.r-project.org/package=vennLasso)
 [![Build Status](https://travis-ci.org/jaredhuling/vennLasso.svg?branch=master)](https://travis-ci.org/jaredhuling/vennLasso)
 
 # vennLasso
-Hierarchical variable selection for models stratified on binary factors 
+
+The `vennLasso` package provides methods for hierarchical variable selection for models with covariate effects stratified by multiple binary factors.
 
 
 
 
 ## Installation and Help Files
 
+The `vennLasso` package can be installed from CRAN using:
 
-Install using the **devtools** package:
+```r
+install.packages("vennLasso")
+```
+
+The development version can be installed using the **devtools** package:
 
 
 ```r
@@ -79,7 +86,7 @@ Inspect the populations for each strata:
 plotVenn(grp)
 ```
 
-![](vignettes/readme_figs/unnamed-chunk-6-1.png)<!-- -->
+![](vignettes/readme_figs/unnamed-chunk-7-1.png)<!-- -->
 
 Fit vennLasso model with tuning parameter selected with 5-fold cross validation:
 
