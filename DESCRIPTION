@@ -1,7 +1,7 @@
 Package: vennLasso
 Type: Package
 Title: Variable Selection for Heterogeneous Populations
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Jared", "Huling", , "jaredhuling@gmail.com", c("aut", "cre")),
     person("Muxuan", "Liang", , , c("ctb")),
@@ -25,7 +25,7 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2017-11-16 17:52:39 UTC; huling.7
+Packaged: 2018-03-25 23:20:22 UTC; huling.7
 Author: Jared Huling [aut, cre],
   Muxuan Liang [ctb],
   Yixuan Qiu [cph],
@@ -34,4 +34,4 @@ Author: Jared Huling [aut, cre],
   Jitse Niesen [cph]
 Maintainer: Jared Huling <jaredhuling@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-11-16 21:50:02 UTC
+Date/Publication: 2018-03-26 03:44:22 UTC
