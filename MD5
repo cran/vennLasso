@@ -1,4 +1,4 @@
-82e69d7fa682a06bbda5cd0c683dfcfc *DESCRIPTION
+a91563401e7a99bb2aeb1926883719f4 *DESCRIPTION
 410a5307f0de2f03bbe02289c0974807 *NAMESPACE
 a32a887e6fc03038743abfc9028b9899 *R/cv_vennLasso.R
 6afa07ed1a95308a12ef45e7f9e5ccba *R/log_lik.R
@@ -13,10 +13,10 @@ e3de3e244c92918160823b32998c5bf7 *R/utils.R
 859b3764de5422239b58454be90970dc *R/vennPlot.R
 8c85ff0167d1d91f6951a1eb9350606d *README.md
 a3a5f04d2d2c3e05599f66c9a11182af *build/vignette.rds
-87a6040cefccf75f32a1b6297c7c397a *inst/CITATION
+2f2b0fb0baee6c9e020acbf877d58d6e *inst/CITATION
 1ca4bdf706b15cae8a63ec8db1ebc5d0 *inst/doc/using_the_vennLasso_package.R
-8ffbfd73e9d0208588308b5acd880463 *inst/doc/using_the_vennLasso_package.Rmd
-899cea1a269a0a8051d99122fc669446 *inst/doc/using_the_vennLasso_package.pdf
+235795221945dc8b521465d83d9aafd4 *inst/doc/using_the_vennLasso_package.Rmd
+bf36a787b92881717a6d76a98936a418 *inst/doc/using_the_vennLasso_package.pdf
 8957ac0a855e37dc14566139f204c6f2 *man/cv.vennLasso.Rd
 319a93bb406f4e4d0bb730cdda485ea6 *man/estimate.hier.sparsity.param.Rd
 6b04e0280a533d35376d3cc045258082 *man/genHierSparseBeta.Rd
@@ -68,6 +68,6 @@ bce54fa7e36306924ffae8018ab96877 *src/utils.h
 3f6bc966d857095bb88707b08a82e41b *src/vennLasso_init.c
 6758e7c40c5e91347b17d6361b5d3672 *vignettes/readme_figs/unnamed-chunk-6-1.png
 a539e673fef717c0e753c00a446841b5 *vignettes/readme_figs/unnamed-chunk-7-1.png
-7eaefa9757769c70b576c8c9de84c4b8 *vignettes/refs.bib
-8ffbfd73e9d0208588308b5acd880463 *vignettes/using_the_vennLasso_package.Rmd
-345f7a6caba4ea81a194427096637caa *vignettes/vignette_preamble.tex
+e3592345879448d1541da6650b34f476 *vignettes/refs.bib
+235795221945dc8b521465d83d9aafd4 *vignettes/using_the_vennLasso_package.Rmd
+c7b049240b3cdd7f702cd64fdf8cc0f5 *vignettes/vignette_preamble.tex
