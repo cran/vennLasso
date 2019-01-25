@@ -16,6 +16,12 @@ class FADMMBase
 {
 protected:
     typedef typename VecTypeNu::RealScalar Yscalar;
+    
+    double eps_primal;    // tolerance for primal residual
+    double eps_dual;      // tolerance for dual residual
+    
+    double resid_primal;  // primal residual
+    double resid_dual;    // dual residual
 
     const int dim_main;   // dimension of x
     const int dim_aux;    // dimension of z
@@ -36,12 +42,6 @@ protected:
     const double eps_abs; // absolute tolerance
     const double eps_rel; // relative tolerance
 
-    double eps_primal;    // tolerance for primal residual
-    double eps_dual;      // tolerance for dual residual
-
-    double resid_primal;  // primal residual
-    double resid_dual;    // dual residual
-
     virtual void A_mult (VecTypeNu &res, VecTypeBeta &x) = 0;   // operation res -> Ax, x can be overwritten
     virtual void At_mult(VecTypeNu &res, VecTypeNu &y) = 0;   // operation res -> A'y, y can be overwritten
     virtual void B_mult (VecTypeNu &res, VecTypeGamma &z) = 0;   // operation res -> Bz, z can be overwritten
@@ -55,6 +55,24 @@ protected:
     virtual void next_gamma(VecTypeGamma &res) = 0;
     // action when rho is changed, e.g. re-factorize matrices
     virtual void rho_changed_action() {}
+    
+    
+    virtual bool converged()
+    {
+        // std::cout << "resid_primal:" << resid_primal << "eps_primal:" << eps_primal <<
+        //     "resid_dual:" << resid_dual << "eps_dual:" << eps_dual << std::endl;
+        // 
+        // if (std::isinf(resid_primal) || std::isinf(eps_primal) || std::isinf(resid_dual) ||
+        //     std::isinf(eps_dual) || resid_primal != resid_primal || eps_primal != eps_primal ||
+        //     resid_dual != resid_dual || eps_dual != eps_dual)
+        // {
+        //     bool is_conv = false;
+        //     return is_conv;
+        // }
+            
+        bool is_conv = (resid_primal < eps_primal) && (resid_dual < eps_dual);
+        return is_conv;
+    }
 
     // calculating eps_primal
     // eps_primal = sqrt(p) * eps_abs + eps_rel * max(||Ax||, ||Bz||, ||c||)
@@ -105,14 +123,14 @@ protected:
     // increase or decrease rho in iterations
     virtual void update_rho()
     {
-        if(resid_primal / eps_primal > 10 * resid_dual / eps_dual)
+        if(resid_primal / eps_primal > 10.0 * resid_dual / eps_dual)
         {
-            rho *= 2;
+            rho *= 2.0;
             rho_changed_action();
         }
-        else if(resid_dual / eps_dual > 10 * resid_primal / eps_primal)
+        else if(resid_dual / eps_dual > 10.0 * resid_primal / eps_primal)
         {
-            rho /= 2;
+            rho /= 2.0;
             rho_changed_action();
         }
 
@@ -168,15 +186,16 @@ protected:
 
 public:
     FADMMBase(int n_, int m_, int p_,
-              double eps_abs_ = 1e-6, double eps_rel_ = 1e-6) :
+              double eps_abs_ = 1e-6, double eps_rel_ = 1e-6,
+              double smallval_ = 1e-15, double bigval_ = 1e99) :
+        eps_primal(smallval_), eps_dual(smallval_),
+        resid_primal(bigval_), resid_dual(bigval_),
         dim_main(n_), dim_aux(m_), dim_dual(p_),
         main_beta(n_), aux_gamma(m_), dual_nu(p_),  // allocate space but do not set values
         adj_gamma(m_), adj_nu(p_),
         old_gamma(m_), old_nu(p_),
-        adj_a(1.0), adj_c(1e99),
-        eps_abs(eps_abs_), eps_rel(eps_rel_),
-        eps_primal(0.0), eps_dual(0.0),
-        resid_primal(1e99), resid_dual(1e99)
+        adj_a(1.0), adj_c(bigval_),
+        eps_abs(eps_abs_), eps_rel(eps_rel_)
         
     {}
 
@@ -213,34 +232,32 @@ public:
         // Linalg::vec_add(dual_nu.data(), Yscalar(rho), newr.data(), dim_dual);
     }
 
-    bool converged()
-    {
-        return (resid_primal < eps_primal) &&
-               (resid_dual < eps_dual);
-    }
 
     virtual int solve(int maxit)
     {
-        int i;
-
+        int i = 0;
+        
         for(i = 0; i < maxit; i++)
         {
             old_gamma = aux_gamma;
             // old_nu = dual_nu;
             std::copy(dual_nu.data(), dual_nu.data() + dim_dual, old_nu.data());
-
+            
             update_beta();
             update_gamma();
             update_nu();
-
+            
             // print_row(i);
-
-            if(converged())
-                break;
-
+            
+            if (i > 0)
+            {
+                if(converged())
+                    break;
+            }
+            
             double old_c = adj_c;
             adj_c = compute_resid_combined();
-
+            
             if(adj_c < 0.999 * old_c)
             {
                 double old_a = adj_a;
@@ -260,9 +277,9 @@ public:
             if(i > 5 && i % 500 == 0)
                 update_rho();
         }
-
+        
         // print_footer();
-
+        
         return i + 1;
     }
 
